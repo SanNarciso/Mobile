@@ -2,6 +2,8 @@ package com.example.todoapp.views.tasks
 
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,7 +86,25 @@ class TasksFragment : Fragment() {
     private fun createTaskDialog() {
 
         val dialogBinding = CreateTaskBottomSheetBinding.inflate(LayoutInflater.from(requireContext()), null, false)
+
+        dialogBinding.saveTaskButton.isEnabled = false
+
+        dialogBinding.taskTitleEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                dialogBinding.saveTaskButton.isEnabled = s?.isNotBlank() == true
+            }
+        })
+
         dialogBinding.saveTaskButton.setOnClickListener {
+            val task = Task(
+                isCompleted = false,
+                text = dialogBinding.taskTitleEditText.text.toString(),
+                isFavorite = false //todo
+            )
+            viewModel.createTask(task)
             newTaskDialog.dismiss()
         }
         dialogBinding.taskTitleEditText.requestFocus()

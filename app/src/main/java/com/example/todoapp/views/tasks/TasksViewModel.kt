@@ -31,8 +31,8 @@ class TasksViewModel : ViewModel(), TasksListener, Subscriber {
         taskRepository.removeTask(task)
     }
 
-    fun createTask() {
-        taskRepository.add(Task(false, "task", false))
+    fun createTask(task: Task) {
+        taskRepository.add(task)
     }
 
     override fun setChanges(tasks: List<Task>) {
