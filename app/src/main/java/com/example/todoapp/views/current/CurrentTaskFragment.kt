@@ -1,5 +1,6 @@
 package com.example.todoapp.views.current
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.todoapp.R
+import com.example.todoapp.base.navigator.Navigator
 import com.example.todoapp.databinding.FragmentCurrentTaskBinding
 import com.example.todoapp.model.task.Task
 
@@ -15,6 +17,17 @@ class CurrentTaskFragment : Fragment() {
 
     private lateinit var binding: FragmentCurrentTaskBinding
     private val viewModel: CurrentTaskViewModel by activityViewModels()
+    private var navigator: Navigator? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigator = context as Navigator
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigator = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +49,10 @@ class CurrentTaskFragment : Fragment() {
             renderState(it)
         }
 
+        binding.goBackImageButton.setOnClickListener {
+            navigator?.goBack()
+        }
+
         binding.favoriteImageButton.setOnClickListener {
             viewModel.updateTask(
                 task = viewModel.task.value!!.copy(
@@ -50,10 +67,12 @@ class CurrentTaskFragment : Fragment() {
                     isCompleted = !viewModel.task.value!!.isCompleted
                 )
             )
+            if (viewModel.task.value?.isCompleted!!) navigator?.goBack()
         }
 
         binding.deleteImageButton.setOnClickListener {
             viewModel.deleteTask()
+            navigator?.goBack()
         }
 
     }

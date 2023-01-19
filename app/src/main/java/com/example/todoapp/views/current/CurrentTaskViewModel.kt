@@ -20,7 +20,6 @@ class CurrentTaskViewModel : ViewModel() {
 
     fun deleteTask() {
         taskRepository.removeTask(_task.value!!)
-        //todo
     }
 
     fun initState(task: Task) {
