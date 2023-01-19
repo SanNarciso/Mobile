@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">TodoApp</string>
-    <string name="favorite_button">Favorite button</string>
+    <string name="app_name">GoogleTasksClone</string>
+    <string name="favorite_button">Favourite button</string>
+    <string name="more">More</string>
+    <string name="app_title">Задачи</string>
+    <string name="create_task_fab_description">Создать задачу</string>
+    <string name="accounts">Аккаунты</string>
 </resources>
