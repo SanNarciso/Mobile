@@ -1,15 +1,14 @@
 package com.example.todoapp.views.tasks
 
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.todoapp.TasksAdapter
-import com.example.todoapp.TasksListener
+
 import com.example.todoapp.databinding.FragmentTasksBinding
 import com.example.todoapp.model.task.Task
 
@@ -25,7 +24,8 @@ class TasksFragment : Fragment() {
         if (savedInstanceState == null) {
             viewModel.initState()
         } else {
-            val state = savedInstanceState.getParcelableArrayList<Task>("KEY") as MutableList<Task>
+            @Suppress("DEPRECATION")
+            val state = savedInstanceState.getParcelableArrayList<Task>(KEY_STATE) as MutableList<Task>
             viewModel.initState(state)
         }
     }
@@ -49,6 +49,10 @@ class TasksFragment : Fragment() {
 
         initRecyclerView()
 
+        binding.createItemFab.setOnClickListener {
+            viewModel.createTask()
+        }
+
         viewModel.tasks.observe(viewLifecycleOwner) {
             adapter.tasks = it
         }
@@ -58,7 +62,7 @@ class TasksFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(
-            "KEY_STATE",
+            KEY_STATE,
             viewModel.tasks.value as ArrayList<Task>
         )
     }

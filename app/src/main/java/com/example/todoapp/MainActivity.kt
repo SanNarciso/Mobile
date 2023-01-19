@@ -3,8 +3,6 @@ package com.example.todoapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.todoapp.databinding.ActivityMainBinding
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.todoapp.model.task.Task
 import com.example.todoapp.views.tasks.TasksFragment
 
 

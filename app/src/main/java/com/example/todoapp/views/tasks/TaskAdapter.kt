@@ -1,9 +1,10 @@
-package com.example.todoapp
+package com.example.todoapp.views.tasks
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todoapp.R
 import com.example.todoapp.databinding.TaskItemBinding
 import com.example.todoapp.model.task.Task
 
@@ -11,10 +12,8 @@ class TasksAdapter(private val listener: TasksListener) : RecyclerView.Adapter<T
 
     var tasks: List<Task> = mutableListOf()
         set(newValue) {
-            if (newValue != field) {
-                field = newValue
-                notifyDataSetChanged()
-            }
+            field = newValue
+            notifyDataSetChanged()
         }
 
     inner class TasksViewHolder(view: View) : RecyclerView.ViewHolder(view) {
