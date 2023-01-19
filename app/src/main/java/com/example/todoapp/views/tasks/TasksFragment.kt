@@ -87,15 +87,19 @@ class TasksFragment : Fragment() {
         dialogBinding.saveTaskButton.setOnClickListener {
             newTaskDialog.dismiss()
         }
-
         dialogBinding.taskTitleEditText.requestFocus()
+
+        newTaskDialog.setOnCancelListener {
+            dialogBinding.taskTitleEditText.text.clear()
+        }
+
         newTaskDialog.setContentView(dialogBinding.root)
 
     }
 
     companion object {
 
-        private const val KEY_STATE = "com.example.googletasksclone.views.tasks.key_state"
+        private const val KEY_STATE = "com.example.todoapp.views.tasks.key_state"
 
         fun newInstance(): TasksFragment = TasksFragment()
 
