@@ -48,13 +48,12 @@
             android:contentDescription="@string/set_time_content_description"
             android:backgroundTint="#00FFFFFF"/>
 
-        <ImageButton
-            android:id="@+id/add_in_favourite_imega_btn"
+        <CheckBox
+            android:id="@+id/add_in_favorite_check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_star_border"
-            android:contentDescription="@string/add_in_favorite_content_description"
-            android:backgroundTint="#00FFFFFF"/>
+            android:button="@drawable/ic_star_border"
+            android:checked="false"/>
 
         <Space
             android:layout_width="0dp"
