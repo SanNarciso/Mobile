@@ -53,6 +53,7 @@
         android:src="@drawable/ic_add"
         android:contentDescription="@string/create_task_fab_description"
         android:backgroundTint="@color/white"
+        app:borderWidth="0dp"
         app:layout_anchor="@id/bottom_app_bar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
