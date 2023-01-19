@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.todoapp.model.task.InDatabaseTaskRepository
-import com.example.todoapp.model.task.Observer
+import com.example.todoapp.model.task.Subscriber
 import com.example.todoapp.model.task.Task
 
-class TasksViewModel : ViewModel(), TasksListener, Observer {
+class TasksViewModel : ViewModel(), TasksListener, Subscriber {
 
     private val taskRepository = InDatabaseTaskRepository.get()
 

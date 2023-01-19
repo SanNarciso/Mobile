@@ -1,10 +1,10 @@
 package com.example.todoapp.model.task
 
-class InDatabaseTaskRepository : TaskRepository {
+class InDatabaseTaskRepository : TaskRepository, Observer {
 
     private var tasks: MutableList<Task> =  mutableListOf()
 
-    private val subscribers = mutableListOf<Observer>()
+    override val subscribers = mutableListOf<Subscriber>()
 
     override fun getTasks(): List<Task> = tasks as List<Task>
 
@@ -13,28 +13,28 @@ class InDatabaseTaskRepository : TaskRepository {
         tasks.forEachIndexed { ind, t ->
             if (t.text == task.text) tasks[ind] = task
         }
-        notifyDataSetChanges()
+        notifySubscribers()
     }
 
     override fun removeTask(task: Task) {
         tasks.remove(task)
-        notifyDataSetChanges()
+        notifySubscribers()
     }
 
     override fun add(task: Task) {
         tasks.add(task)
-        notifyDataSetChanges()
+        notifySubscribers()
     }
 
-    fun addSubscriber(subscriber: Observer) {
+    override fun addSubscriber(subscriber: Subscriber) {
         subscribers.add(subscriber)
     }
 
-    fun removeSubscriber(subscriber: Observer) {
+    override fun removeSubscriber(subscriber: Subscriber) {
         subscribers.remove(subscriber)
     }
 
-    private fun notifyDataSetChanges() {
+    override fun notifySubscribers() {
         subscribers.forEach { it.setChanges(tasks) }
     }
 
