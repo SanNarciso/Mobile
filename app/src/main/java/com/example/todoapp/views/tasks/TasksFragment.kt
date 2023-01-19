@@ -88,6 +88,7 @@ class TasksFragment : Fragment() {
             newTaskDialog.dismiss()
         }
 
+        dialogBinding.taskTitleEditText.requestFocus()
         newTaskDialog.setContentView(dialogBinding.root)
 
     }
