@@ -9,6 +9,7 @@ import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todoapp.R
 import com.example.todoapp.databinding.CreateTaskBottomSheetBinding
 
 import com.example.todoapp.databinding.FragmentTasksBinding
@@ -50,7 +51,7 @@ class TasksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = TasksAdapter(viewModel as TasksListener)
-        newTaskDialog = BottomSheetDialog(requireContext())
+        newTaskDialog = BottomSheetDialog(requireContext(), R.style.DialogStyle)
         newTaskDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
         initRecyclerView()
