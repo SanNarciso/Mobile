@@ -26,31 +26,25 @@ class InDatabaseTaskRepository private constructor(context: Context): TaskReposi
 
     override fun getTasks(): LiveData<List<Task>> = tasksDao.getTasks()
 
-    override fun updateTask(task: Task) {
+    override suspend fun updateTask(task: Task) {
         tasks.forEachIndexed { ind, t ->
             if (t.id == task.id) {
                 tasks[ind] = task
             }
         }
-        executor.execute {
-            tasksDao.updateTask(task)
-        }
+        tasksDao.updateTask(task)
         //notifySubscribers()
     }
 
-    override fun removeTask(task: Task) {
+    override suspend fun removeTask(task: Task) {
         tasks.remove(task)
-        executor.execute {
-            tasksDao.deleteTask(task)
-        }
+        tasksDao.deleteTask(task)
 //        notifySubscribers()
     }
 
-    override fun add(task: Task) {
+    override suspend fun add(task: Task) {
         tasks.add(task)
-        executor.execute {
-            tasksDao.addTask(task)
-        }
+        tasksDao.addTask(task)
         //notifySubscribers()
     }
 
