@@ -13,7 +13,6 @@ import com.example.todoapp.R
 import com.example.todoapp.base.navigator.Navigator
 import com.example.todoapp.databinding.FragmentCurrentTaskBinding
 import com.example.todoapp.model.task.Task
-import com.example.todoapp.views.category.CategoryFragment
 import com.example.todoapp.views.tasks.TasksFragment
 
 
@@ -46,7 +45,7 @@ class CurrentTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val task = requireArguments().getParcelable<Task>(ARGS_KEY) as Task
+        val task = requireArguments().getParcelable<Task>(ARGS_TASK) as Task
         if (savedInstanceState == null) viewModel.initState(task)
 
         viewModel.task.observe(viewLifecycleOwner) {
@@ -73,8 +72,10 @@ class CurrentTaskFragment : Fragment() {
         }
 
         binding.deleteImageButton.setOnClickListener {
-//            viewModel.deleteTask()
-            setFragmentResult("111", bundleOf(CategoryFragment.KEY_REMOVED_TASK to viewModel.task.value))
+            setFragmentResult("111", bundleOf(
+                TasksFragment.EVENT_ARG_TASK to viewModel.task.value,
+                TasksFragment.EVENT_ARG_POSITION to requireArguments().getInt(ARGS_POS)
+            ))
             navigator?.goBack()
         }
 
@@ -102,11 +103,13 @@ class CurrentTaskFragment : Fragment() {
 
     companion object {
 
-        private const val ARGS_KEY = "om.example.todoapp.views.current.args_key"
+        private const val ARGS_TASK = "om.example.todoapp.views.current.args_task"
+        private const val ARGS_POS = "om.example.todoapp.views.current.args_pos"
 
-        fun newInstance(task: Task): CurrentTaskFragment {
+        fun newInstance(task: Task, adapterPosition: Int): CurrentTaskFragment {
             val args = Bundle().apply {
-                putParcelable(ARGS_KEY, task)
+                putParcelable(ARGS_TASK, task)
+                putInt(ARGS_POS, adapterPosition)
             }
 
             val fragment = CurrentTaskFragment()

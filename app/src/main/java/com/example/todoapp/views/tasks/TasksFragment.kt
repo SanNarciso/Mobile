@@ -6,6 +6,7 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.base.navigator.Navigator
@@ -23,6 +25,7 @@ import com.example.todoapp.databinding.CreateTaskBottomSheetBinding
 import com.example.todoapp.databinding.FragmentTasksBinding
 import com.example.todoapp.model.task.Task
 import com.example.todoapp.views.category.CategoryViewPager2Adapter
+import com.example.todoapp.views.category.adapters
 import com.example.todoapp.views.current.CurrentTaskFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -31,16 +34,18 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 val categories = arrayOf(
     "Избранные",
-    "Мои задачи"
+    "Мои задачи",
+    "Выполненные"
 )
 
-class TasksFragment : Fragment()  {
+class TasksFragment : Fragment(), TasksListener  {
 
     private lateinit var binding: FragmentTasksBinding
     private val viewModel: TasksViewModel by activityViewModels()
     private var navigator: Navigator? = null
     private lateinit var adapter: CategoryViewPager2Adapter
     private lateinit var newTaskDialog: BottomSheetDialog
+    private var deletingMode = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -77,6 +82,39 @@ class TasksFragment : Fragment()  {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setFragmentResultListener("111") { key, bundle ->
+            deletingMode = true
+
+            @Suppress("DEPRECATION")
+            val task = bundle.getParcelable<Task>(EVENT_ARG_TASK) as Task
+            val position = bundle.getInt(EVENT_ARG_POSITION)
+            val snackbar = Snackbar.make(view, "Задача удалена", Snackbar.LENGTH_LONG)
+
+            val deletingItemPos: Int? = adapters[position].removeItem(task)
+            Log.d("delete", "pos $deletingItemPos")
+
+            var flagDeleteTask = true
+
+            snackbar.setAction("Отмена") {
+                flagDeleteTask = false
+            }
+            snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                override fun onShown(transientBottomBar: Snackbar?) {
+                    super.onShown(transientBottomBar)
+                }
+
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    if (flagDeleteTask) viewModel.removeTask(task)
+                    else {
+                        adapters[position].addItem(task, deletingItemPos)
+                    }
+                    deletingMode = false
+                }
+            })
+            snackbar.show()
+        }
 
         adapter = CategoryViewPager2Adapter(this)
         binding.categoryViewPager2.adapter = adapter
@@ -159,8 +197,30 @@ class TasksFragment : Fragment()  {
 
     }
 
+    override fun onClickTask(task: Task) {
+        viewModel.updateTask(task)
+    }
+
+    override fun showTaskScreen(task: Task, adapterPosition: Int) {
+        navigator?.launch(CurrentTaskFragment.newInstance(task, adapterPosition))
+    }
+
+    override fun onMoveTask(from: Int, to: Int) {
+
+    }
+
+    override fun observeData(lifecycleOwner: LifecycleOwner, adapter: TasksAdapter, position: Int) {
+        when (position) {
+            0 -> viewModel.tasks.observe(lifecycleOwner) { if(!deletingMode) adapter.tasks = it.toMutableList()}
+            1 -> viewModel.tasks.observe(lifecycleOwner) { if(!deletingMode) adapter.tasks = it.toMutableList()}
+            2 -> viewModel.tasks.observe(lifecycleOwner) { if(!deletingMode) adapter.tasks = it.toMutableList()}
+        }
+    }
+
     companion object {
 
+        const val EVENT_ARG_TASK = "event_arg_task"
+        const val EVENT_ARG_POSITION = "event_arg_position"
         private const val KEY_STATE = "com.example.todoapp.views.tasks.key_state"
 
         fun newInstance(): TasksFragment = TasksFragment()
