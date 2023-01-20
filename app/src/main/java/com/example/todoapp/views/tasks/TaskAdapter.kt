@@ -10,7 +10,7 @@ import com.example.todoapp.model.task.Task
 
 class TasksAdapter(private val listener: TasksListener) : RecyclerView.Adapter<TasksAdapter.TasksViewHolder>() {
 
-    var tasks: List<Task> = mutableListOf()
+    var tasks: MutableList<Task> = mutableListOf()
         set(newValue) {
             field = newValue
             notifyDataSetChanged()
