@@ -1,5 +1,7 @@
 package com.example.todoapp.model.task
 
+import java.util.*
+
 class InDatabaseTaskRepository : TaskRepository, Observer {
 
     private var tasks: MutableList<Task> =  mutableListOf()
@@ -25,6 +27,10 @@ class InDatabaseTaskRepository : TaskRepository, Observer {
     override fun add(task: Task) {
         tasks.add(task)
         notifySubscribers()
+    }
+
+    override fun moveTask(from: Int, to: Int) {
+        Collections.swap(tasks, from, to)
     }
 
     override fun addSubscriber(subscriber: Subscriber) {
