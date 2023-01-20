@@ -2,6 +2,7 @@ package com.example.todoapp.views.tasks
 
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
@@ -80,7 +82,14 @@ class TasksFragment : Fragment()  {
         binding.categoryViewPager2.adapter = adapter
 
         TabLayoutMediator(binding.categoryTabLayout, binding.categoryViewPager2) {tab, position ->
-            tab.text = categories[position]
+
+            if (position == 0) {
+                tab.setIcon(R.drawable.ic_star)
+                val tabIconColor = ContextCompat.getColor(requireContext(), R.color.blue)
+                tab.icon?.setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN)
+            } else {
+                tab.text = categories[position]
+            }
         }.attach()
 
         newTaskDialog = BottomSheetDialog(requireContext(), R.style.DialogStyle)
