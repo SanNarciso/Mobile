@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_list_numbered"
-        android:text="@string/favorite"
+        android:text="@string/my_task"
         android:textColor="@color/black"
         android:background="#00FFFFFF"/>
 
@@ -32,8 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_completed_task"
-        android:text="@string/favorite"
+        android:text="@string/completed_task"
         android:textColor="@color/black"
+        android:textAllCaps="false"
         android:background="#00FFFFFF"/>
 
 </LinearLayout>
