@@ -1,6 +1,7 @@
 package com.example.todoapp.model.task
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.todoapp.database.TaskDatabase
 import java.util.*
@@ -23,7 +24,7 @@ class InDatabaseTaskRepository private constructor(context: Context): TaskReposi
 
     override val subscribers = mutableListOf<Subscriber>()
 
-    override fun getTasks(): List<Task> = tasksDao.getTasks()
+    override fun getTasks(): LiveData<List<Task>> = tasksDao.getTasks()
 
     override fun updateTask(task: Task) {
         tasks.forEachIndexed { ind, t ->
@@ -31,12 +32,18 @@ class InDatabaseTaskRepository private constructor(context: Context): TaskReposi
                 tasks[ind] = task
             }
         }
-        notifySubscribers()
+        executor.execute {
+            tasksDao.updateTask(task)
+        }
+        //notifySubscribers()
     }
 
     override fun removeTask(task: Task) {
         tasks.remove(task)
-        notifySubscribers()
+        executor.execute {
+            tasksDao.deleteTask(task)
+        }
+//        notifySubscribers()
     }
 
     override fun add(task: Task) {
@@ -44,7 +51,7 @@ class InDatabaseTaskRepository private constructor(context: Context): TaskReposi
         executor.execute {
             tasksDao.addTask(task)
         }
-        notifySubscribers()
+        //notifySubscribers()
     }
 
     override fun moveTask(from: Int, to: Int) {

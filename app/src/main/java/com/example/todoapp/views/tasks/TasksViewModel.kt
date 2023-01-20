@@ -12,7 +12,7 @@ class TasksViewModel : ViewModel(), Subscriber {
     private val taskRepository = InDatabaseTaskRepository.get()
 
     private val _tasks = MutableLiveData<List<Task>>()
-    val tasks: LiveData<List<Task>> = _tasks
+    val tasks: LiveData<List<Task>> = taskRepository.getTasks()
 
     init {
         taskRepository.addSubscriber(this)
@@ -42,7 +42,7 @@ class TasksViewModel : ViewModel(), Subscriber {
 
     fun getTasks() {
         val tasks = taskRepository.getTasks()
-        _tasks.value = tasks
+        _tasks.value = tasks.value
     }
 
     override fun setChanges(tasks: List<Task>) {
