@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.todoapp.databinding.FragmentCategoryItemBinding
 import com.example.todoapp.views.tasks.TasksAdapter
+import com.example.todoapp.views.tasks.TasksItemTouchHelper
 import com.example.todoapp.views.tasks.TasksListener
 import kotlin.properties.Delegates
 
@@ -50,6 +51,9 @@ class CategoryItemFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         listener.observeData(viewLifecycleOwner, adapter, position)
+
+        val touchHelper = TasksItemTouchHelper()
+        touchHelper.itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
         return binding.root
     }
