@@ -72,7 +72,7 @@ class CurrentTaskFragment : Fragment() {
         }
 
         binding.deleteImageButton.setOnClickListener {
-            viewModel.deleteTask()
+            //viewModel.deleteTask()
             setFragmentResult(TasksFragment.EVENT_DELETE_TASK, bundleOf(TasksFragment.KEY_REMOVED_TASK to viewModel.task.value))
             navigator?.goBack()
         }
@@ -101,7 +101,7 @@ class CurrentTaskFragment : Fragment() {
 
     companion object {
 
-        private const val ARGS_KEY = "om.example.googletasksclone.views.current.args_key"
+        private const val ARGS_KEY = "om.example.todoapp.views.current.args_key"
 
         fun newInstance(task: Task): CurrentTaskFragment {
             val args = Bundle().apply {

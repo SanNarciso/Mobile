@@ -22,9 +22,10 @@ import com.example.todoapp.databinding.FragmentTasksBinding
 import com.example.todoapp.model.task.Task
 import com.example.todoapp.views.current.CurrentTaskFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
-class TasksFragment : Fragment(), TasksListener  {
+class TasksFragment : Fragment(), TasksListener {
 
     private lateinit var binding: FragmentTasksBinding
     private val viewModel: TasksViewModel by activityViewModels()
@@ -49,7 +50,8 @@ class TasksFragment : Fragment(), TasksListener  {
             viewModel.initState()
         } else {
             @Suppress("DEPRECATION")
-            val state = savedInstanceState.getParcelableArrayList<Task>(KEY_STATE) as MutableList<Task>
+            val state =
+                savedInstanceState.getParcelableArrayList<Task>(KEY_STATE) as MutableList<Task>
             viewModel.initState(state)
         }
     }
@@ -72,10 +74,18 @@ class TasksFragment : Fragment(), TasksListener  {
         setFragmentResultListener(EVENT_DELETE_TASK) { key, bundle ->
             @Suppress("DEPRECATION")
             val task = bundle.getParcelable<Task>(KEY_REMOVED_TASK) as Task
-            val snackbar = Snackbar.make( view, "Задача удалена", Snackbar.LENGTH_LONG)
+            val snackbar = Snackbar.make(view, "Задача удалена", Snackbar.LENGTH_LONG)
+            var flagDeleteTask = true
             snackbar.setAction("Отмена") {
-                Toast.makeText(requireContext(), "Отменено", Toast.LENGTH_SHORT).show()
+
+                flagDeleteTask = false
             }
+            snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    if (flagDeleteTask) viewModel.removeTask(task)
+                }
+            })
             snackbar.show()
         }
 
@@ -113,7 +123,8 @@ class TasksFragment : Fragment(), TasksListener  {
 
     private fun createTaskDialog() {
 
-        val dialogBinding = CreateTaskBottomSheetBinding.inflate(LayoutInflater.from(requireContext()), null, false)
+        val dialogBinding =
+            CreateTaskBottomSheetBinding.inflate(LayoutInflater.from(requireContext()), null, false)
 
         dialogBinding.saveTaskButton.isEnabled = false
 
@@ -181,5 +192,4 @@ class TasksFragment : Fragment(), TasksListener  {
         fun newInstance(): TasksFragment = TasksFragment()
 
     }
-
 }
