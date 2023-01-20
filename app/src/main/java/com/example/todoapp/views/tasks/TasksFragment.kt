@@ -161,8 +161,6 @@ class TasksFragment : Fragment()  {
 
     companion object {
 
-        const val EVENT_DELETE_TASK = "com.example.todoapp.views.tasks.delete_task"
-        const val KEY_REMOVED_TASK = "com.example.todoapp.views.tasks.delete_task"
         private const val KEY_STATE = "com.example.todoapp.views.tasks.key_state"
 
         fun newInstance(): TasksFragment = TasksFragment()

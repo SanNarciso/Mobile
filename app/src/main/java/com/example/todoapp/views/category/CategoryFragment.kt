@@ -2,6 +2,7 @@ package com.example.todoapp.views.category
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,14 +52,15 @@ class CategoryFragment : Fragment(), TasksListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFragmentResultListener(EVENT_DELETE_TASK) { key, bundle ->
+        requireActivity().supportFragmentManager.setFragmentResultListener("111", this) { key, bundle ->
             deletingMode = true
 
             @Suppress("DEPRECATION")
             val task = bundle.getParcelable<Task>(KEY_REMOVED_TASK) as Task
-            val snackbar = Snackbar.make(view, "Задача удалена", Snackbar.LENGTH_LONG)
+            val snackbar = Snackbar.make(binding.snackHolder, "Задача удалена", Snackbar.LENGTH_LONG)
 
             val deletingItemPos: Int? = adapter.removeItem(task)
+            Log.d("delete", "pos $deletingItemPos")
 
             var flagDeleteTask = true
 
@@ -83,7 +85,7 @@ class CategoryFragment : Fragment(), TasksListener {
         }
 
         viewModel.tasks.observe(viewLifecycleOwner) {
-            adapter.tasks = it.toMutableList()
+            if(!deletingMode) adapter.tasks = it.toMutableList()
         }
     }
 
@@ -109,7 +111,7 @@ class CategoryFragment : Fragment(), TasksListener {
     companion object {
 
         const val EVENT_DELETE_TASK = "com.example.todoapp.views.tasks.delete_task"
-        const val KEY_REMOVED_TASK = "com.example.todoapp.views.tasks.delete_task"
+        const val KEY_REMOVED_TASK = "com.example.todoapp.views.tasks.removed_task"
 
 
     }
