@@ -44,13 +44,13 @@ class TasksAdapter(private val listener: TasksListener) : RecyclerView.Adapter<T
             }
 
             val imageRes = if (task.isFavorite) R.drawable.ic_star else R.drawable.ic_star_border
-            isFavouriteImageButton.setImageResource(imageRes)
+            isFavoriteImageButton.setImageResource(imageRes)
 
-            isFavouriteImageButton.setOnClickListener {
+            isFavoriteImageButton.setOnClickListener {
                 task.isFavorite = !task.isFavorite
                 listener.onClickTask(task)
                 val imRes = if (task.isFavorite) R.drawable.ic_star else R.drawable.ic_star_border
-                isFavouriteImageButton.setImageResource(imRes)
+                isFavoriteImageButton.setImageResource(imRes)
                 notifyDataSetChanged()
             }
 
