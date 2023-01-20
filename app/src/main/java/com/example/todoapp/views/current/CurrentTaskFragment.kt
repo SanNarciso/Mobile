@@ -39,17 +39,6 @@ class CurrentTaskFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStop() {
-        super.onStop()
-
-        viewModel.updateTask(
-            task = viewModel.task.value!!.copy(
-                text = binding.taskTitleEditText.text.toString(),
-                additionalInfo = binding.additInfoEditText.text.toString()
-            )
-        )
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -66,17 +55,15 @@ class CurrentTaskFragment : Fragment() {
 
         binding.favoriteImageButton.setOnClickListener {
             viewModel.updateTask(
-                task = viewModel.task.value!!.copy(
-                    isFavorite = !viewModel.task.value!!.isFavorite
-                )
+                isFavorite = !viewModel.task.value!!.isFavorite,
+                text = binding.taskTitleEditText.text.toString(),
+                additionalInfo = binding.additInfoEditText.text.toString()
             )
         }
 
         binding.addInCompletedButton.setOnClickListener {
             viewModel.updateTask(
-                task = viewModel.task.value!!.copy(
-                    isCompleted = !viewModel.task.value!!.isCompleted
-                )
+                isCompleted = !viewModel.task.value!!.isCompleted
             )
             if (viewModel.task.value?.isCompleted!!) navigator?.goBack()
         }
@@ -86,6 +73,15 @@ class CurrentTaskFragment : Fragment() {
             navigator?.goBack()
         }
 
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        viewModel.updateTask(
+            text = binding.taskTitleEditText.text.toString(),
+            additionalInfo = binding.additInfoEditText.text.toString()
+        )
     }
 
     private fun renderState(task: Task) = binding.run {
@@ -101,7 +97,7 @@ class CurrentTaskFragment : Fragment() {
 
     companion object {
 
-        private const val ARGS_KEY = "om.example.todoapp.views.current.args_key"
+        private const val ARGS_KEY = "om.example.googletasksclone.views.current.args_key"
 
         fun newInstance(task: Task): CurrentTaskFragment {
             val args = Bundle().apply {
