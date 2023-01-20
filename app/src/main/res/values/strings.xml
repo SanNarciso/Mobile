@@ -12,7 +12,8 @@
     <string name="add_in_favorite_content_description">Добавить в избранное</string>
     <string name="add_addit_info_hint">Добавьте дополнительную информацию</string>
     <string name="completed">Выполнено</string>
-    <string name="uncompleted">Невыполненого</string>
+    <string name="uncompleted">Невыполнено</string>
+    <string name="favorite">Избранныые</string>
 
     <style name="TabLayoutStyle" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
