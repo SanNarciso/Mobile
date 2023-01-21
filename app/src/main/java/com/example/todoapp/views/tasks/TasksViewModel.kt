@@ -9,7 +9,7 @@ import com.example.todoapp.model.task.Task
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TasksViewModel : ViewModel(){
+class TasksViewModel : ViewModel() {
 
     private val taskRepository = InDatabaseTaskRepository.get()
 
@@ -36,23 +36,5 @@ class TasksViewModel : ViewModel(){
             taskRepository.add(task)
         }
     }
-
-    fun getTasks() {
-        val tasks = taskRepository.getTasks()
-        _tasks.value = tasks.value
-    }
-
-    fun removeTaskFromLiveData(task: Task) {
-
-    }
-
-    fun initState(state: MutableList<Task>? = null) {
-        if (state != null) {
-            _tasks.value = state!!
-            return
-        }
-
-    }
-
-
 }
+

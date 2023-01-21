@@ -10,7 +10,6 @@ class App : Application() {
 
         InDatabaseTaskRepository.initial(this)
 
-
     }
 
 }
