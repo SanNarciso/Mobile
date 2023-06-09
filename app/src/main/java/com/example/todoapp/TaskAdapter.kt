@@ -44,6 +44,7 @@ class TasksAdapter(private val listener: TasksListener) : RecyclerView.Adapter<T
             }
 
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksViewHolder {
