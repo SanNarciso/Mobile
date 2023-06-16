@@ -4,14 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center">
 
     <CheckBox
         android:id="@+id/is_completed_check_box"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="task 1"
-        android:textSize="16sp"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/task_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            tools:text="sdjklfjsdlk"/>
+
+        <TextView
+            android:id="@+id/task_addit_info_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/gray"
+            tools:text="sdjklfjsdlk" />
+
+    </LinearLayout>
 
     <Space
         android:layout_width="0dp"
