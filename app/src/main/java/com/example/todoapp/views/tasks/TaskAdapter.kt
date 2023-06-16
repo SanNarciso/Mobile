@@ -22,12 +22,24 @@ class TasksAdapter(private val listener: TasksListener) : RecyclerView.Adapter<T
 
         fun bind(task: Task) = binding.run {
 
+            root.setOnClickListener {
+                listener.showTaskScreen(task)
+            }
+
             isCompletedCheckBox.isChecked = task.isCompleted
-            isCompletedCheckBox.text = task.text
+            taskTitleTextView.text = task.text
+            taskAdditInfoTextView.apply {
+                if (task.additionalInfo.isNotBlank()) {
+                    text = task.additionalInfo
+                    visibility = View.VISIBLE
+                } else {
+                    visibility = View.GONE
+                }
+            }
 
             isCompletedCheckBox.setOnClickListener {
                 task.isCompleted = isCompletedCheckBox.isChecked
-                listener.updateTask(task)
+                listener.onClickTask(task)
                 notifyDataSetChanged()
             }
 
@@ -36,7 +48,7 @@ class TasksAdapter(private val listener: TasksListener) : RecyclerView.Adapter<T
 
             isFavouriteImageButton.setOnClickListener {
                 task.isFavorite = !task.isFavorite
-                listener.updateTask(task)
+                listener.onClickTask(task)
                 val imRes = if (task.isFavorite) R.drawable.ic_star else R.drawable.ic_star_border
                 isFavouriteImageButton.setImageResource(imRes)
                 notifyDataSetChanged()
