@@ -5,4 +5,9 @@
     <string name="app_title">Задачи</string>
     <string name="create_task_fab_description">Создать задачу</string>
     <string name="accounts">Аккаунты</string>
+    <string name="create_task_hint">Новая задача</string>
+    <string name="save">Сохранить</string>
+    <string name="addit_info_content_description">Дополнительная информация</string>
+    <string name="set_time_content_description">Указать время</string>
+    <string name="add_in_favorite_content_description">Добавить в избранное</string>
 </resources>
