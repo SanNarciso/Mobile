@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentCurrentTaskBinding
 import com.example.todoapp.model.task.Task
 
 class CurrentTaskFragment : Fragment() {
 
     private lateinit var binding: FragmentCurrentTaskBinding
+    private val viewModel: CurrentTaskViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +28,41 @@ class CurrentTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.task.observe(viewLifecycleOwner) {
+            renderState(it)
+        }
 
+        binding.favoriteImageButton.setOnClickListener {
+            viewModel.updateTask(
+                task = viewModel.task.value!!.copy(
+                    isFavorite = !viewModel.task.value!!.isFavorite
+                )
+            )
+        }
+
+        binding.addInCompletedButton.setOnClickListener {
+            viewModel.updateTask(
+                task = viewModel.task.value!!.copy(
+                    isCompleted = !viewModel.task.value!!.isCompleted
+                )
+            )
+        }
+
+        binding.deleteImageButton.setOnClickListener {
+            viewModel.deleteTask()
+        }
+
+    }
+
+    private fun renderState(task: Task) = binding.run {
+        taskTitleEditText.setText(task.text)
+        additInfoEditText.setText(task.additionalInfo)
+        favoriteImageButton.setImageResource(
+            if (task.isFavorite) R.drawable.ic_star else R.drawable.ic_star_border
+        )
+        addInCompletedButton.setText(
+            if (task.isCompleted) R.string.uncompleted else R.string.completed
+        )
     }
 
     companion object {
