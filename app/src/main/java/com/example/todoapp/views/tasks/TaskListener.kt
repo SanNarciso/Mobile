@@ -1,4 +1,4 @@
-package com.example.todoapp
+package com.example.todoapp.views.tasks
 
 import com.example.todoapp.model.task.Task
 

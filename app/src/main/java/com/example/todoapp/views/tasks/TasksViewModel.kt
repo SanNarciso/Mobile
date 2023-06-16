@@ -3,7 +3,6 @@ package com.example.todoapp.views.tasks
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.todoapp.TasksListener
 import com.example.todoapp.model.task.Task
 
 class TasksViewModel : ViewModel(), TasksListener {
@@ -38,6 +37,17 @@ class TasksViewModel : ViewModel(), TasksListener {
             )
         }
         _tasks.value = tasks
+    }
+
+    fun createTask() {
+        val list = _tasks.value ?: mutableListOf()
+        list.add(
+            Task(
+                isCompleted = false,
+                text = "Task ${list.size}",
+                isFavorite = false)
+        )
+        _tasks.value = list
     }
 
 
