@@ -54,7 +54,7 @@ class TasksFragment : Fragment() {
 
         adapter = TasksAdapter(viewModel as TasksListener)
         newTaskDialog = BottomSheetDialog(requireContext(), R.style.DialogStyle)
-        newTaskDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        newTaskDialog.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
         initRecyclerView()
         createTaskDialog()
