@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), Navigator {
         val transaction = supportFragmentManager.beginTransaction()
         if (addToBackStack) transaction.addToBackStack(null)
         transaction
-            .add(R.id.fragment_holder, f)
+            .replace(R.id.fragment_holder, f)
             .commit()
     }
 

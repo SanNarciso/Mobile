@@ -10,6 +10,7 @@ import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentCurrentTaskBinding
 import com.example.todoapp.model.task.Task
 
+
 class CurrentTaskFragment : Fragment() {
 
     private lateinit var binding: FragmentCurrentTaskBinding
@@ -27,6 +28,9 @@ class CurrentTaskFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val task = requireArguments().getParcelable<Task>(ARGS_KEY) as Task
+        if (savedInstanceState == null) viewModel.initState(task)
 
         viewModel.task.observe(viewLifecycleOwner) {
             renderState(it)
