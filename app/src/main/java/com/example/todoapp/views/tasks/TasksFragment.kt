@@ -22,7 +22,7 @@ import com.example.todoapp.model.task.Task
 import com.example.todoapp.views.current.CurrentTaskFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class TasksFragment : Fragment(), TasksListener {
+class TasksFragment : Fragment(), TasksListener  {
 
     private lateinit var binding: FragmentTasksBinding
     private val viewModel: TasksViewModel by activityViewModels()
@@ -79,7 +79,7 @@ class TasksFragment : Fragment(), TasksListener {
         }
 
         viewModel.tasks.observe(viewLifecycleOwner) {
-            adapter.tasks = it
+            adapter.tasks = it.toMutableList()
         }
     }
 
@@ -95,6 +95,7 @@ class TasksFragment : Fragment(), TasksListener {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 
     private fun createTaskDialog() {
