@@ -1,14 +1,29 @@
 package com.example.todoapp.model.task
 
+import android.content.Context
+import androidx.room.Room
+import com.example.todoapp.database.TaskDatabase
 import java.util.*
+import java.util.concurrent.Executors
 
-class InDatabaseTaskRepository : TaskRepository, Observer {
+private const val DATABASE_NAME = "tasks-database"
+
+class InDatabaseTaskRepository private constructor(context: Context): TaskRepository, Observer {
+
+    private val database: TaskDatabase = Room.databaseBuilder(
+        context.applicationContext,
+        TaskDatabase::class.java,
+        DATABASE_NAME
+    ).build()
+
+    private val tasksDao = database.taskDao()
+    private val executor = Executors.newSingleThreadExecutor()
 
     private var tasks: MutableList<Task> =  mutableListOf()
 
     override val subscribers = mutableListOf<Subscriber>()
 
-    override fun getTasks(): List<Task> = tasks as List<Task>
+    override fun getTasks(): List<Task> = tasksDao.getTasks()
 
     override fun updateTask(task: Task) {
         tasks.forEachIndexed { ind, t ->
@@ -26,6 +41,9 @@ class InDatabaseTaskRepository : TaskRepository, Observer {
 
     override fun add(task: Task) {
         tasks.add(task)
+        executor.execute {
+            tasksDao.addTask(task)
+        }
         notifySubscribers()
     }
 
@@ -53,9 +71,9 @@ class InDatabaseTaskRepository : TaskRepository, Observer {
             return INSTANCE ?: throw IllegalStateException("InDatabaseTaskRepository must be initialize")
         }
 
-        fun initial() {
+        fun initial(context: Context) {
             if (INSTANCE == null) {
-                INSTANCE = InDatabaseTaskRepository()
+                INSTANCE = InDatabaseTaskRepository(context)
             }
         }
 

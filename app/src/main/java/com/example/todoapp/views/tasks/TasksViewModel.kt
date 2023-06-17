@@ -27,20 +27,26 @@ class TasksViewModel : ViewModel(), Subscriber {
         taskRepository.updateTask(task)
     }
 
+    fun onMoveTask(from: Int, to: Int) {
+        taskRepository.moveTask(from, to)
+    }
+
     fun removeTask(task: Task) {
         taskRepository.removeTask(task)
     }
 
     fun createTask(task: Task) {
         taskRepository.add(task)
+        getTasks()
+    }
+
+    fun getTasks() {
+        val tasks = taskRepository.getTasks()
+        _tasks.value = tasks
     }
 
     override fun setChanges(tasks: List<Task>) {
         _tasks.value = tasks
-    }
-
-    fun onMoveTask(from: Int, to: Int) {
-        taskRepository.moveTask(from, to)
     }
 
     fun initState(state: MutableList<Task>? = null) {
@@ -48,12 +54,12 @@ class TasksViewModel : ViewModel(), Subscriber {
             _tasks.value = state!!
             return
         }
-        taskRepository.add(Task(isCompleted = true, text = "Task 0", additionalInfo = "addit info", isFavorite = true))
-        for (i in 1..10) {
-            taskRepository.add(
-                Task(isCompleted = false, text = "Task $i", additionalInfo = "" , isFavorite = false)
-            )
-        }
+//        taskRepository.add(Task(isCompleted = true, text = "Task 0", additionalInfo = "addit info", isFavourite = true))
+//        for (i in 1..10) {
+//            taskRepository.add(
+//                Task(isCompleted = false, text = "Task $i", additionalInfo = "" , isFavourite = false)
+//            )
+//        }
     }
 
 
