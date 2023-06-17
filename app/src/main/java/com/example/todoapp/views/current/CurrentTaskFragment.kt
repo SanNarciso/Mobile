@@ -39,6 +39,17 @@ class CurrentTaskFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStop() {
+        super.onStop()
+
+        viewModel.updateTask(
+            task = viewModel.task.value!!.copy(
+                text = binding.taskTitleEditText.text.toString(),
+                additionalInfo = binding.additInfoEditText.text.toString()
+            )
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

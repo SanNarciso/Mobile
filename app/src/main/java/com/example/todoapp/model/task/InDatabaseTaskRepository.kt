@@ -9,9 +9,10 @@ class InDatabaseTaskRepository : TaskRepository, Observer {
     override fun getTasks(): List<Task> = tasks as List<Task>
 
     override fun updateTask(task: Task) {
-        //todo change text to id
         tasks.forEachIndexed { ind, t ->
-            if (t.text == task.text) tasks[ind] = task
+            if (t.id == task.id) {
+                tasks[ind] = task
+            }
         }
         notifySubscribers()
     }

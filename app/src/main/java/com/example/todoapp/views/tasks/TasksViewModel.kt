@@ -44,10 +44,10 @@ class TasksViewModel : ViewModel(), Subscriber {
             _tasks.value = state!!
             return
         }
-        taskRepository.add(Task(true, "Task 0","addit info", true))
+        taskRepository.add(Task(isCompleted = true, text = "Task 0", additionalInfo = "addit info", isFavorite = true))
         for (i in 1..10) {
             taskRepository.add(
-                Task(false, "Task $i", "" , false)
+                Task(isCompleted = false, text = "Task $i", additionalInfo = "" , isFavorite = false)
             )
         }
     }
