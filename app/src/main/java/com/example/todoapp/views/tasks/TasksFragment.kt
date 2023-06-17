@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.base.navigator.Navigator
@@ -64,12 +65,15 @@ class TasksFragment : Fragment(), TasksListener  {
 
     }
 
-    override fun onMoveTask(from: Int, to: Int) {
-        viewModel.onMoveTask(from, to)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setFragmentResultListener(EVENT_DELETE_TASK) { key, bundle ->
+            @Suppress("DEPRECATION")
+            val task = bundle.getParcelable<Task>(KEY_REMOVED_TASK) as Task
+            Toast.makeText(requireContext(), "${task.text} deleted", Toast.LENGTH_SHORT).show()
+        }
+
 
         newTaskDialog = BottomSheetDialog(requireContext(), R.style.DialogStyle)
         newTaskDialog.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
@@ -159,8 +163,14 @@ class TasksFragment : Fragment(), TasksListener  {
         navigator?.launch(CurrentTaskFragment.newInstance(task))
     }
 
+    override fun onMoveTask(from: Int, to: Int) {
+        viewModel.onMoveTask(from, to)
+    }
+
     companion object {
 
+        const val EVENT_DELETE_TASK = "com.example.todoapp.views.tasks.delete_task"
+        const val KEY_REMOVED_TASK = "com.example.todoapp.views.tasks.delete_task"
         private const val KEY_STATE = "com.example.todoapp.views.tasks.key_state"
 
         fun newInstance(): TasksFragment = TasksFragment()
