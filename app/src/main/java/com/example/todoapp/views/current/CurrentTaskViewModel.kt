@@ -3,8 +3,11 @@ package com.example.todoapp.views.current
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.todoapp.model.task.InDatabaseTaskRepository
 import com.example.todoapp.model.task.Task
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CurrentTaskViewModel : ViewModel() {
 
@@ -26,13 +29,15 @@ class CurrentTaskViewModel : ViewModel() {
             additionalInfo = additionalInfo ?: task.additionalInfo,
             isFavorite = isFavorite ?: task.isFavorite
         )
-        taskRepository.updateTask(newTask)
+        viewModelScope.launch(Dispatchers.IO) {
+            taskRepository.updateTask(newTask)
+        }
         _task.value = newTask
     }
 
-    fun deleteTask() {
-        taskRepository.removeTask(_task.value!!)
-    }
+//    fun deleteTask() {
+//        taskRepository.removeTask(_task.value!!)
+//    }
 
     fun initState(task: Task) {
         _task.value = task

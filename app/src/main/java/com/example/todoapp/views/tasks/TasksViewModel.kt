@@ -3,9 +3,12 @@ package com.example.todoapp.views.tasks
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.todoapp.model.task.InDatabaseTaskRepository
 import com.example.todoapp.model.task.Subscriber
 import com.example.todoapp.model.task.Task
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TasksViewModel : ViewModel(), Subscriber {
 
@@ -24,7 +27,9 @@ class TasksViewModel : ViewModel(), Subscriber {
     }
 
     fun updateTask(task: Task) {
-        taskRepository.updateTask(task)
+        viewModelScope.launch(Dispatchers.IO) {
+            taskRepository.updateTask(task)
+        }
     }
 
     fun onMoveTask(from: Int, to: Int) {
@@ -32,12 +37,15 @@ class TasksViewModel : ViewModel(), Subscriber {
     }
 
     fun removeTask(task: Task) {
-        taskRepository.removeTask(task)
+        viewModelScope.launch(Dispatchers.IO) {
+            taskRepository.removeTask(task)
+        }
     }
 
     fun createTask(task: Task) {
-        taskRepository.add(task)
-        getTasks()
+        viewModelScope.launch(Dispatchers.IO) {
+            taskRepository.add(task)
+        }
     }
 
     fun getTasks() {

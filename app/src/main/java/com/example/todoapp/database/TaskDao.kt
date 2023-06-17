@@ -15,11 +15,11 @@ interface TaskDao {
     fun getTask(id: UUID): LiveData<Task?>
 
     @Insert
-    fun addTask(task: Task)
+    suspend fun addTask(task: Task)
 
     @Update
-    fun updateTask(task: Task)
+    suspend fun updateTask(task: Task)
 
     @Delete
-    fun deleteTask(task: Task)
+    suspend fun deleteTask(task: Task)
 }
