@@ -49,6 +49,10 @@ class TasksViewModel : ViewModel(), Subscriber {
         _tasks.value = tasks
     }
 
+    fun removeTaskFromLiveData(task: Task) {
+
+    }
+
     fun initState(state: MutableList<Task>? = null) {
         if (state != null) {
             _tasks.value = state!!
