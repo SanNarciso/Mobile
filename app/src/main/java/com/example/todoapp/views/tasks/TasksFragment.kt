@@ -64,6 +64,10 @@ class TasksFragment : Fragment(), TasksListener  {
 
     }
 
+    override fun onMoveTask(from: Int, to: Int) {
+        viewModel.onMoveTask(from, to)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

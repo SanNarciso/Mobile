@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
 import com.example.todoapp.databinding.TaskItemBinding
 import com.example.todoapp.model.task.Task
+import java.util.*
 
 class TasksAdapter(private val listener: TasksListener) : RecyclerView.Adapter<TasksAdapter.TasksViewHolder>() {
 
@@ -70,5 +71,10 @@ class TasksAdapter(private val listener: TasksListener) : RecyclerView.Adapter<T
     }
 
     override fun getItemCount(): Int = tasks.size
+
+    fun moveItem(from: Int, to: Int) {
+        Collections.swap(tasks, from, to)
+        listener.onMoveTask(from, to)
+    }
 
 }

@@ -8,5 +8,7 @@ interface TasksListener {
 
     fun showTaskScreen(task:Task)
 
+    fun onMoveTask(from: Int, to: Int)
+
 
 }

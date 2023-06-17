@@ -39,6 +39,10 @@ class TasksViewModel : ViewModel(), Subscriber {
         _tasks.value = tasks
     }
 
+    fun onMoveTask(from: Int, to: Int) {
+        taskRepository.moveTask(from, to)
+    }
+
     fun initState(state: MutableList<Task>? = null) {
         if (state != null) {
             _tasks.value = state!!
