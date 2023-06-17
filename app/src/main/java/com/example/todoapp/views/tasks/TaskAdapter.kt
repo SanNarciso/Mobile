@@ -42,8 +42,6 @@ class TasksAdapter(private val listener: TasksListener) : RecyclerView.Adapter<T
             val diffResult = DiffUtil.calculateDiff(diffCallback)
             field = newValue
             diffResult.dispatchUpdatesTo(this)
-            Log.d("tag", "update list")
-            Log.d("tag", "new? ${newValue === field}")
         }
 
     inner class TasksViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -121,18 +119,22 @@ class TasksAdapter(private val listener: TasksListener) : RecyclerView.Adapter<T
         val _tasks = mutableListOf<Task>()
         tasks.forEach { _tasks.add(it) }
 
-        if (pos == null) _tasks.add(item) else _tasks.add(pos, item)
+        if (pos == null)
+            _tasks.add(item)
+        else _tasks.add(pos, item)
 
         tasks = _tasks
     }
 
     fun removeItem(item: Task): Int? {
 
-        for (i in 0 until tasks.size) {
-            if (item.id == tasks[i].id) {
-                val t = tasks
-                t.remove(item)
-                tasks = t
+        val _tasks = mutableListOf<Task>()
+        tasks.forEach { _tasks.add(it) }
+
+        for (i in 0 until _tasks.size) {
+            if (item.id == _tasks[i].id) {
+                _tasks.remove(item)
+                tasks = _tasks
 
                 return i
             }
