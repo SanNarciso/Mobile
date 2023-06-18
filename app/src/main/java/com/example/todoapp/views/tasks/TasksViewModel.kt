@@ -16,6 +16,8 @@ class TasksViewModel : ViewModel(), Subscriber {
 
     private val _tasks = MutableLiveData<List<Task>>()
     val tasks: LiveData<List<Task>> = taskRepository.getTasks()
+    val completedTasks: LiveData<List<Task>> = taskRepository.getCompletedTasks()
+    val favoriteTasks: LiveData<List<Task>> = taskRepository.getFavoriteTasks()
 
     init {
         taskRepository.addSubscriber(this)
@@ -66,12 +68,7 @@ class TasksViewModel : ViewModel(), Subscriber {
             _tasks.value = state!!
             return
         }
-//        taskRepository.add(Task(isCompleted = true, text = "Task 0", additionalInfo = "addit info", isFavourite = true))
-//        for (i in 1..10) {
-//            taskRepository.add(
-//                Task(isCompleted = false, text = "Task $i", additionalInfo = "" , isFavourite = false)
-//            )
-//        }
+
     }
 
 

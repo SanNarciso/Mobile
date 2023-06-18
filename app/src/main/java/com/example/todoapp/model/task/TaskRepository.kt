@@ -6,6 +6,10 @@ interface TaskRepository : Repository {
 
     fun getTasks(): LiveData<List<Task>>
 
+    fun getFavoriteTasks(): LiveData<List<Task>>
+
+    fun getCompletedTasks(): LiveData<List<Task>>
+
     suspend fun updateTask(task: Task)
 
     suspend fun removeTask(task: Task)

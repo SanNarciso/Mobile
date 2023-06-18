@@ -8,8 +8,14 @@ import java.util.*
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM task")
+    @Query("SELECT * FROM task WHERE isCompleted = 0")
     fun getTasks(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task WHERE isFavorite = 1 AND isCompleted = 0")
+    fun getFavouriteTasks(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task WHERE isCompleted = 1")
+    fun getCompletedTasks(): LiveData<List<Task>>
 
     @Query("SELECT * FROM task WHERE id=(:id)")
     fun getTask(id: UUID): LiveData<Task?>

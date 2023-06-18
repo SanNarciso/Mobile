@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/favourite_tasks_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_star"
+        android:text="@string/favorite"
+        android:textColor="@color/black"
+        android:background="#00FFFFFF"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
+
+    <Button
+        android:id="@+id/my_tasks_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_list_numbered"
+        android:text="@string/favorite"
+        android:textColor="@color/black"
+        android:background="#00FFFFFF"/>
+
+    <Button
+        android:id="@+id/completed_tasks_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_completed_task"
+        android:text="@string/favorite"
+        android:textColor="@color/black"
+        android:background="#00FFFFFF"/>
+
+</LinearLayout>

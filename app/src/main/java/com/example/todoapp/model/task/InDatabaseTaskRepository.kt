@@ -25,6 +25,8 @@ class InDatabaseTaskRepository private constructor(context: Context): TaskReposi
     override val subscribers = mutableListOf<Subscriber>()
 
     override fun getTasks(): LiveData<List<Task>> = tasksDao.getTasks()
+    override fun getCompletedTasks(): LiveData<List<Task>> = tasksDao.getCompletedTasks()
+    override fun getFavoriteTasks(): LiveData<List<Task>> = tasksDao.getFavouriteTasks()
 
     override suspend fun updateTask(task: Task) {
         tasks.forEachIndexed { ind, t ->
