@@ -18,7 +18,6 @@ class InDatabaseTaskRepository private constructor(context: Context): TaskReposi
     ).build()
 
     private val tasksDao = database.taskDao()
-    private val executor = Executors.newSingleThreadExecutor()
 
     private var tasks: MutableList<Task> =  mutableListOf()
 

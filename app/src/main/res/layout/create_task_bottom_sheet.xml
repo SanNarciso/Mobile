@@ -40,13 +40,6 @@
             android:contentDescription="@string/addit_info_content_description"
             android:backgroundTint="#00FFFFFF"/>
 
-        <ImageButton
-            android:id="@+id/set_time_image_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_time"
-            android:contentDescription="@string/set_time_content_description"
-            android:backgroundTint="#00FFFFFF"/>
 
         <CheckBox
             android:id="@+id/add_in_favorite_check_box"

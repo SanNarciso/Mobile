@@ -11,7 +11,7 @@ import com.example.todoapp.databinding.TaskItemBinding
 import com.example.todoapp.model.task.Task
 import java.util.*
 
-class TasksDiffCallback(
+class TasksDiffCallback( // list optimizer
     private val oldList: List<Task>,
     private val newList: List<Task>
 ) : DiffUtil.Callback() {

@@ -190,7 +190,7 @@ class TasksFragment : Fragment(), TasksListener  {
         val dialogBinding = PageSwitcherBottomSheetBinding.inflate(LayoutInflater.from(requireContext()), null, false)
         pageSwitcherDialog.setContentView(dialogBinding.root)
 
-        dialogBinding.favouriteTasksButton.setOnClickListener {
+        dialogBinding.favoriteTasksButton.setOnClickListener {
             val tab = binding.categoryTabLayout.getTabAt(0)
             tab?.select()
             pageSwitcherDialog.dismiss()

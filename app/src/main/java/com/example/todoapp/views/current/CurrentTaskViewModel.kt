@@ -35,10 +35,6 @@ class CurrentTaskViewModel : ViewModel() {
         _task.value = newTask
     }
 
-//    fun deleteTask() {
-//        taskRepository.removeTask(_task.value!!)
-//    }
-
     fun initState(task: Task) {
         _task.value = task
     }
