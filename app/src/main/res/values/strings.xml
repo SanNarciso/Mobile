@@ -14,6 +14,8 @@
     <string name="completed">Выполнено</string>
     <string name="uncompleted">Невыполнено</string>
     <string name="favorite">Избранныые</string>
+    <string name="completed_task">Выполненые</string>
+    <string name="my_task">Мои задачи</string>
 
     <style name="TabLayoutStyle" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
