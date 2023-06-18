@@ -11,7 +11,7 @@ import com.example.todoapp.databinding.TaskItemBinding
 import com.example.todoapp.model.task.Task
 import java.util.*
 
-class TasksDiffCallback( // list optimizer
+class TasksDiffCallback(
     private val oldList: List<Task>,
     private val newList: List<Task>
 ) : DiffUtil.Callback() {
@@ -98,11 +98,6 @@ class TasksAdapter(private val listener: TasksListener, private val adapterPos: 
     }
 
     override fun getItemCount(): Int = tasks.size
-
-    fun setList(list: MutableList<Task>) {
-        val _tasks = list
-        tasks = _tasks
-    }
 
     private fun notifyDataChanged() {
         val _tasks = tasks
