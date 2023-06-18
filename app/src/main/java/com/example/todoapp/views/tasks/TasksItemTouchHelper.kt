@@ -4,43 +4,46 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 
-val itemTouchHelper by lazy {
-    val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
+class TasksItemTouchHelper {
 
-            val adapter = recyclerView.adapter as TasksAdapter
+    val itemTouchHelper by lazy {
+        val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
 
-            val from = viewHolder.adapterPosition
+                val adapter = recyclerView.adapter as TasksAdapter
 
-            val to = target.adapterPosition
+                val from = viewHolder.adapterPosition
 
-            adapter.moveItem(from, to)
-            adapter.notifyItemMoved(from, to)
+                val to = target.adapterPosition
 
-            return true
-        }
+                adapter.moveItem(from, to)
+                adapter.notifyItemMoved(from, to)
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
-
-        override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-            super.onSelectedChanged(viewHolder, actionState)
-
-            if (actionState == ACTION_STATE_DRAG) {
-                viewHolder?.itemView?.alpha = 0.5f
+                return true
             }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                super.onSelectedChanged(viewHolder, actionState)
+
+                if (actionState == ACTION_STATE_DRAG) {
+                    viewHolder?.itemView?.alpha = 0.5f
+                }
+            }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+
+                viewHolder.itemView.alpha = 1f
+            }
+
         }
 
-        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-            super.clearView(recyclerView, viewHolder)
-
-            viewHolder.itemView.alpha = 1f
-        }
-
+        ItemTouchHelper(simpleItemTouchCallback)
     }
-
-    ItemTouchHelper(simpleItemTouchCallback)
 }

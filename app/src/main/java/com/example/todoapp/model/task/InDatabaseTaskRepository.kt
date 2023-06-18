@@ -9,7 +9,7 @@ import java.util.concurrent.Executors
 
 private const val DATABASE_NAME = "tasks-database"
 
-class InDatabaseTaskRepository private constructor(context: Context): TaskRepository, Observer {
+class InDatabaseTaskRepository private constructor(context: Context): TaskRepository {
 
     private val database: TaskDatabase = Room.databaseBuilder(
         context.applicationContext,
@@ -22,7 +22,6 @@ class InDatabaseTaskRepository private constructor(context: Context): TaskReposi
 
     private var tasks: MutableList<Task> =  mutableListOf()
 
-    override val subscribers = mutableListOf<Subscriber>()
 
     override fun getTasks(): LiveData<List<Task>> = tasksDao.getTasks()
     override fun getCompletedTasks(): LiveData<List<Task>> = tasksDao.getCompletedTasks()
@@ -35,36 +34,23 @@ class InDatabaseTaskRepository private constructor(context: Context): TaskReposi
             }
         }
         tasksDao.updateTask(task)
-        //notifySubscribers()
     }
 
     override suspend fun removeTask(task: Task) {
         tasks.remove(task)
         tasksDao.deleteTask(task)
-//        notifySubscribers()
     }
 
     override suspend fun add(task: Task) {
         tasks.add(task)
         tasksDao.addTask(task)
-        //notifySubscribers()
     }
 
     override fun moveTask(from: Int, to: Int) {
         Collections.swap(tasks, from, to)
     }
 
-    override fun addSubscriber(subscriber: Subscriber) {
-        subscribers.add(subscriber)
-    }
 
-    override fun removeSubscriber(subscriber: Subscriber) {
-        subscribers.remove(subscriber)
-    }
-
-    override fun notifySubscribers() {
-        subscribers.forEach { it.setChanges(tasks) }
-    }
 
     companion object {
 
